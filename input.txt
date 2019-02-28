@@ -8,7 +8,7 @@ Michael  Lee        70 Boeing     32.0  35.5
 Patricia Wright     80 Intel      40.0  32.0
 Stanley  Johnson    90 HealthTech 48.5  43.25
 James    Miller    100 Raytheon   55.5  45.75
-Linda    David     110 HealthTech 40.0  36.5
+Linda    Davis     110 HealthTech 40.0  36.5
 Olivia   Walker    120 Intel      61.15 51.5
 Thomas   Sanders   130 Raytheon   50.25 38.5
 Sophia   Foster    140 Raytheon   44.15 44.0
