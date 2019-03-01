@@ -28,6 +28,9 @@ void separateAndSave(vector<Person> &employees, vector<string> &compNames);
 // Will display the contents in the vector. THIS IS ONLY FOR TESTING PURPOSES.
 void displayVector(vector<Person> &employees);
 
+// Will display the contents in the vector. THIS IS ONLY FOR TESTING PURPOSES.
+void displayCompNames(vector<string> &compNames);
+
 int main()
 {
   vector<Person> employees;
@@ -35,6 +38,9 @@ int main()
 
   readData(employees);
   //displayVector(employees);
+  getCompanies(employees, companyNames);
+  //cout << endl << endl;
+  //displayCompNames(companyNames);
 
   return 0;
 }
@@ -96,16 +102,54 @@ void displayVector(vector<Person> &employees)
 
 void getCompanies(vector<Person> &employees, vector<string> &compNames)
 {
-  int counter = 0, size = employees.size();
+  int lCounter = 0, vCounter = 0, size = employees.size();
   string name;
+  bool duplicates;
 
   do
   {
-    name = employees.at(counter).getCompanyName();
-    counter++;
+    name = employees.at(vCounter).getCompanyName();
 
-    for(int i = 0; i < counter; i++)
+    if(compNames.size() == 0)
     {
+      compNames.push_back(name);
+      vCounter++;
+      cout << compNames.back() << endl;
     }
-  } while(counter <= size);
+    else if(compNames.size() != 0)
+    {
+      for(int i = 0; i < compNames.size(); i++)
+      {
+        if(compNames.at(i) == name)
+        {
+          duplicates = false;
+        }
+        else if(compNames.at(i) != name)
+        {
+          duplicates = true;
+        }
+      }
+      if(duplicates == true)
+      {
+        compNames.push_back(name);
+        vCounter++;
+        cout << compNames.back() << endl;
+      }
+      else
+      {
+        vCounter++;
+      }
+    }
+    lCounter++;
+  } while(lCounter <= size);
+}
+
+void displayCompNames(vector<string> &compNames)
+{
+  int size = compNames.size();
+
+  for(int i = 0; i < size; i++)
+  {
+    cout << compNames.at(i) << endl;
+  }
 }
