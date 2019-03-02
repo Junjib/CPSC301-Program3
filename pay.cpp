@@ -39,7 +39,7 @@ int main()
   readData(employees);
   //displayVector(employees);
   getCompanies(employees, companyNames);
-  //cout << endl << endl;
+  cout << endl << endl;
   //displayCompNames(companyNames);
 
   return 0;
@@ -102,13 +102,13 @@ void displayVector(vector<Person> &employees)
 
 void getCompanies(vector<Person> &employees, vector<string> &compNames)
 {
-  int lCounter = 0, vCounter = 0, size = employees.size();
+  int lCounter = 0, vCounter = 0, nCounter = 0, size = employees.size();
   string name;
-  bool duplicates;
 
   do
   {
     name = employees.at(vCounter).getCompanyName();
+    lCounter++;
 
     if(compNames.size() == 0)
     {
@@ -122,26 +122,24 @@ void getCompanies(vector<Person> &employees, vector<string> &compNames)
       {
         if(compNames.at(i) == name)
         {
-          duplicates = false;
-        }
-        else if(compNames.at(i) != name)
-        {
-          duplicates = true;
+          nCounter++;
         }
       }
-      if(duplicates == true)
+      if(nCounter == 0)
       {
         compNames.push_back(name);
         vCounter++;
         cout << compNames.back() << endl;
+        nCounter = 0;
       }
       else
       {
-        vCounter++;
+        name = "null";
+        cout << name << endl;
+        nCounter = 0;
       }
     }
-    lCounter++;
-  } while(lCounter <= size);
+  } while(lCounter < size);
 }
 
 void displayCompNames(vector<string> &compNames)
