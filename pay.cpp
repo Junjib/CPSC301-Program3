@@ -28,19 +28,16 @@ void separateAndSave(vector<Person> &employees, vector<string> &compNames);
 // Will display the contents in the vector. THIS IS ONLY FOR TESTING PURPOSES.
 void displayVector(vector<Person> &employees);
 
-// Will display the contents in the vector. THIS IS ONLY FOR TESTING PURPOSES.
-void displayCompNames(vector<string> &compNames);
-
 int main()
 {
   vector<Person> employees;
   vector<string> companyNames;
 
   readData(employees);
-  //displayVector(employees);
   getCompanies(employees, companyNames);
   cout << endl << endl;
-  //displayCompNames(companyNames);
+  printHighestPaid(employees);
+  //displayVector(employees);
 
   return 0;
 }
@@ -142,12 +139,70 @@ void getCompanies(vector<Person> &employees, vector<string> &compNames)
   } while(lCounter < size);
 }
 
-void displayCompNames(vector<string> &compNames)
+void printHighestPaid(vector<Person> &employees)
 {
-  int size = compNames.size();
+  float highest, temp1, temp2;
+  float tPay;
+  string name;
+  vector<float> pay;
 
-  for(int i = 0; i < size; i++)
+  // Stores the total pay into the vector pay.
+  for(int i = 0; i < employees.size(); i++)
   {
-    cout << compNames.at(i) << endl;
+    tPay = employees.at(i).totalPay();
+    pay.push_back(tPay);
   }
+
+  // Finds the highest total pay.
+  for(int i = 1; i < pay.size(); i++)
+  {
+    temp1 = pay.at(i);
+    temp2 = pay.at(i - 1);
+
+    if(temp1 > temp2)
+    {
+      if(highest > temp1)
+      {
+        highest = highest;
+      }
+      else
+      {
+        highest = temp1;
+      }
+    }
+    if(temp2 > temp1)
+    {
+      if(highest > temp2)
+      {
+        highest = highest;
+      }
+      else
+      {
+        highest = temp2;
+      }
+    }
+  }
+
+  // Uses the value in the highest variable and compares to employees vector to
+  // find the richest employee.
+  for(int i = 0; i < employees.size(); i++)
+  {
+    if(highest == employees.at(i).totalPay())
+    {
+      name = employees.at(i).fullName();
+      cout << "Highest paid: " << name << endl;
+      cout << "Employee ID: " << employees.at(i).getEmployeeId() << endl;
+      cout << "Employer: " << employees.at(i).getCompanyName() << endl;
+      cout << "Total Pay: $" << fixed << setprecision(2) << highest << endl;
+    }
+  }
+}
+
+void separateAndSave(vector<Person> &employees, vector<string> &compNames)
+{
+  string firstName, lastName, coName;
+  float hours, pay;
+  int coID;
+  ofstream writeData;
+
 }
