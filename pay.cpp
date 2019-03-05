@@ -28,6 +28,9 @@ void separateAndSave(vector<Person> &employees, vector<string> &compNames);
 // Will display the contents in the vector. THIS IS ONLY FOR TESTING PURPOSES.
 void displayVector(vector<Person> &employees);
 
+// Will display the contents in the vector. THIS IS ONLY FOR TESTING PURPOSES.
+void displayCompNames(vector<string> &compNames);
+
 int main()
 {
   vector<Person> employees;
@@ -35,8 +38,11 @@ int main()
 
   readData(employees);
   getCompanies(employees, companyNames);
-  cout << endl << endl;
+  //displayCompNames(companyNames);
+  //cout << endl << endl;
   printHighestPaid(employees);
+  cout << endl << endl;
+  separateAndSave(employees, companyNames);
   //displayVector(employees);
 
   return 0;
@@ -107,12 +113,13 @@ void getCompanies(vector<Person> &employees, vector<string> &compNames)
     name = employees.at(vCounter).getCompanyName();
     lCounter++;
 
+    // This block only executes if companyNames vector is empty.
     if(compNames.size() == 0)
     {
       compNames.push_back(name);
       vCounter++;
-      cout << compNames.back() << endl;
     }
+    // ==========================================================
     else if(compNames.size() != 0)
     {
       for(int i = 0; i < compNames.size(); i++)
@@ -126,18 +133,27 @@ void getCompanies(vector<Person> &employees, vector<string> &compNames)
       {
         compNames.push_back(name);
         vCounter++;
-        cout << compNames.back() << endl;
         nCounter = 0;
       }
       else
       {
-        name = "null";
-        cout << name << endl;
         nCounter = 0;
+        vCounter++;
       }
     }
   } while(lCounter < size);
 }
+
+// =======================================================================
+// FOR TESTING PURPOSES. REMOVE WHEN PROGRAM IS READY TO TURN IN.
+void displayCompNames(vector<string> &compNames)
+{
+  for(int i = 0; i < compNames.size(); i++)
+  {
+    cout << compNames.at(i) << endl;
+  }
+}
+// =======================================================================
 
 void printHighestPaid(vector<Person> &employees)
 {
@@ -200,9 +216,30 @@ void printHighestPaid(vector<Person> &employees)
 
 void separateAndSave(vector<Person> &employees, vector<string> &compNames)
 {
-  string firstName, lastName, coName;
-  float hours, pay;
-  int coID;
+  string firstName, lastName, coName, empCoName;
+  int coID, vCounter = 0, lCounter = 0;
+  float pay, hours, rate;
   ofstream writeData;
 
+  do
+  {
+    lCounter++;
+    empCoName = employees.at(vCounter).getCompanyName();
+
+    for(int i = 0; i < compNames.size(); i++)
+    {
+      coName = compNames.at(i);
+      if(empCoName == coName)
+      {
+        cout << empCoName << " " << coName << endl;
+        writeData.open(empCoName + ".txt");
+        firstName = employees.at(vCounter).getFirstName();
+        cout << firstName << endl;
+        writeData << firstName;
+        writeData << endl;
+        writeData.close();
+        vCounter++;
+      }
+    }
+  } while(lCounter < employees.size());
 }
