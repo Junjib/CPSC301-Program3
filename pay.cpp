@@ -41,7 +41,6 @@ int main()
   //displayCompNames(companyNames);
   //cout << endl << endl;
   printHighestPaid(employees);
-  cout << endl << endl;
   separateAndSave(employees, companyNames);
   //displayVector(employees);
 
@@ -216,30 +215,34 @@ void printHighestPaid(vector<Person> &employees)
 
 void separateAndSave(vector<Person> &employees, vector<string> &compNames)
 {
-  string firstName, lastName, coName, empCoName;
+  string firstName, lastName, coName, tempCoName;
   int coID, vCounter = 0, lCounter = 0;
-  float pay, hours, rate;
+  float pay, total = 0.0;
   ofstream writeData;
 
-  do
+  for(int i = 0; i < compNames.size(); i++)
   {
-    lCounter++;
-    empCoName = employees.at(vCounter).getCompanyName();
+    tempCoName = compNames.at(i);
+    writeData.open(tempCoName + ".txt");
 
-    for(int i = 0; i < compNames.size(); i++)
+    for(int j = 0; j < employees.size(); j++)
     {
-      coName = compNames.at(i);
-      if(empCoName == coName)
+      firstName = employees.at(j).getFirstName();
+      lastName = employees.at(j).getLastName();
+      coID = employees.at(j).getEmployeeId();
+      coName = employees.at(j).getCompanyName();
+      pay = employees.at(j).totalPay();
+
+      if(tempCoName == coName)
       {
-        cout << empCoName << " " << coName << endl;
-        writeData.open(empCoName + ".txt");
-        firstName = employees.at(vCounter).getFirstName();
-        cout << firstName << endl;
-        writeData << firstName;
-        writeData << endl;
-        writeData.close();
-        vCounter++;
+        total += pay;
+        writeData << firstName << setw(10) << lastName << setw(5);
+        writeData << coID << " " << coName;
+        writeData << " $" << fixed << setprecision(2) << pay << endl;
       }
     }
-  } while(lCounter < employees.size());
+    writeData << "Total $" << fixed << setprecision(2) << total;
+    total = 0.0;
+    writeData.close();
+  }
 }
