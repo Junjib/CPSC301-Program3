@@ -25,12 +25,6 @@ void printHighestPaid(vector<Person> &employees);
 // Boeing will be written to a text file called Boeing.txt.
 void separateAndSave(vector<Person> &employees, vector<string> &compNames);
 
-// Will display the contents in the vector. THIS IS ONLY FOR TESTING PURPOSES.
-void displayVector(vector<Person> &employees);
-
-// Will display the contents in the vector. THIS IS ONLY FOR TESTING PURPOSES.
-void displayCompNames(vector<string> &compNames);
-
 int main()
 {
   vector<Person> employees;
@@ -38,11 +32,8 @@ int main()
 
   readData(employees);
   getCompanies(employees, companyNames);
-  //displayCompNames(companyNames);
-  //cout << endl << endl;
   printHighestPaid(employees);
   separateAndSave(employees, companyNames);
-  //displayVector(employees);
 
   return 0;
 }
@@ -79,28 +70,6 @@ void readData(vector<Person> &employees)
 
   readFile.close();
 }
-
-// =======================================================================
-// FOR TESTING PURPOSES. REMOVE WHEN PROGRAM IS READY TO TURN IN.
-void displayVector(vector<Person> &employees)
-{
-  int size = employees.size(), coID;
-  string firstName, lastName, coName;
-  float hours, rate;
-
-  for(int i = 0; i < size; i++)
-  {
-    firstName = employees.at(i).getFirstName();
-    lastName = employees.at(i).getLastName();
-    coID = employees.at(i).getEmployeeId();
-    coName = employees.at(i).getCompanyName();
-    hours = employees.at(i).getHoursWorked();
-    rate = employees.at(i).getPayRate();
-    cout << firstName << " " << lastName << " " << coID << " " << coName;
-    cout << " " << hours << " " << rate << endl;
-  }
-}
-// =======================================================================
 
 void getCompanies(vector<Person> &employees, vector<string> &compNames)
 {
@@ -142,17 +111,6 @@ void getCompanies(vector<Person> &employees, vector<string> &compNames)
     }
   } while(lCounter < size);
 }
-
-// =======================================================================
-// FOR TESTING PURPOSES. REMOVE WHEN PROGRAM IS READY TO TURN IN.
-void displayCompNames(vector<string> &compNames)
-{
-  for(int i = 0; i < compNames.size(); i++)
-  {
-    cout << compNames.at(i) << endl;
-  }
-}
-// =======================================================================
 
 void printHighestPaid(vector<Person> &employees)
 {
@@ -215,7 +173,7 @@ void printHighestPaid(vector<Person> &employees)
 
 void separateAndSave(vector<Person> &employees, vector<string> &compNames)
 {
-  string firstName, lastName, coName, tempCoName;
+  string name, coName, tempCoName;
   int coID, vCounter = 0, lCounter = 0;
   float pay, total = 0.0;
   ofstream writeData;
@@ -227,8 +185,7 @@ void separateAndSave(vector<Person> &employees, vector<string> &compNames)
 
     for(int j = 0; j < employees.size(); j++)
     {
-      firstName = employees.at(j).getFirstName();
-      lastName = employees.at(j).getLastName();
+      name = employees.at(j).fullName();
       coID = employees.at(j).getEmployeeId();
       coName = employees.at(j).getCompanyName();
       pay = employees.at(j).totalPay();
@@ -236,9 +193,11 @@ void separateAndSave(vector<Person> &employees, vector<string> &compNames)
       if(tempCoName == coName)
       {
         total += pay;
-        writeData << firstName << setw(10) << lastName << setw(5);
-        writeData << coID << " " << coName;
-        writeData << " $" << fixed << setprecision(2) << pay << endl;
+        writeData << left << setw(20) << name;
+        writeData << right << setw(3) << coID;
+        writeData << right << setw(12) << coName;
+        writeData << right << setw(5) << "$" << fixed << setprecision(2) << pay;
+        writeData << endl;
       }
     }
     writeData << "Total $" << fixed << setprecision(2) << total;
